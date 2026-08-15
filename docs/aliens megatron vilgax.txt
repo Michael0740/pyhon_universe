@@ -1,0 +1,17 @@
+aliens = ['megatron', 'vilgax', 'kaguya', 'Momoshiki']
+
+while aliens:
+    print("\nAliens disponíveis:")
+
+    for i, alien in enumerate(aliens):
+        print(f"{i} - {alien}")
+
+    escolha = int(input("Escolha o alien que quer matar: "))
+
+    alien_morto = aliens.pop(escolha)
+
+    print(f"\n Você matou o alien {alien_morto}!")
+
+    print(f" Faltam {len(aliens)} aliens.")
+
+print("\n Você matou todos os aliens!")
