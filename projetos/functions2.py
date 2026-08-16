@@ -22,7 +22,12 @@ def meu_album(nome_artista):
         'Drake': {
             'album': 'Scorpion',
             'Scorpion': ['Song 1', 'Song 2']
+        },
+        'Michael_Jackson':{
+            'album': 'Thriller',
+            'Thriller': ['Song 1', 'Song 2']
         }
+        
     }
 
     if nome_artista in albuns:
