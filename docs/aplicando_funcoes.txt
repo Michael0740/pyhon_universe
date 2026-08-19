@@ -1,0 +1,28 @@
+noções corretas de aplicar uma função em outra
+
+def info_paciente(nome, idade, sexo):
+    print('Bem vindo ao nosso consultório fictício')
+    print(f'Dados paciente: {nome}, {idade}, {sexo}')
+    return {'nome': nome, 'idade': idade, 'sexo': sexo}
+
+
+def consulta():
+    dados_paciente = info_paciente('Ana', 22, 'F')
+    print(dados_paciente)
+
+    escolha_doenca = input('Diga que tipo de doença tem: ').strip().lower()
+
+    tipos_doenca = {
+        'paludismo': {'recomendações': ['remedio x', 'remedio y']},
+        'dengue': {'recomendações': ['remedio x', 'remedio y']},
+    }
+
+    if escolha_doenca in tipos_doenca:
+        return tipos_doenca[escolha_doenca]
+    else:
+        print('Doença não registrada')
+        return None
+
+
+resultado = consulta()
+print(resultado)
