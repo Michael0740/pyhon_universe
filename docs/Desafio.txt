@@ -1,0 +1,23 @@
+Desafio 
+
+Função 1 — verificar_disponibilidade(livro, estoque)
+
+Recebe o nome de um livro e um dicionário estoque (onde a chave é o nome do livro e o valor é a quantidade disponível).
+Ela não deve pedir input nem imprimir nada — só verificar e retornar um valor.
+Pense: o que ela deve return se o livro existir e tiver quantidade > 0? E se não existir, ou existir mas tiver 0 unidades? (dica: pode retornar True/False, ou até a quantidade — pense em qual é mais útil pra quem for usar o retorno depois)
+
+Função 2 — emprestar_livro(livro, estoque)
+
+Essa função chama verificar_disponibilidade dentro dela.
+Se a disponibilidade for positiva, ela deve diminuir em 1 a quantidade daquele livro no dicionário estoque e retornar uma mensagem de sucesso.
+Se não estiver disponível, retorna uma mensagem de erro.
+Pergunta pra você pensar: por que faz sentido chamar verificar_disponibilidade aqui dentro em vez de reescrever a lógica de novo?
+
+Função 3 — atendimento_biblioteca()
+
+Essa é a orquestradora. Ela cria o dicionário estoque inicial (com uns 3 livros e quantidades), pede ao usuário (via input) qual livro ele quer, e chama emprestar_livro passando o que o usuário digitou.
+Por fim, imprime o resultado.
+Perguntas para você responder antes de codar (importante!)
+Quantos parâmetros cada função realmente precisa? Alguma delas vai precisar do estoque mesmo sem imprimir nada com ele?
+Qual das 3 funções é a única que deve conter input()? Por quê?
+Se emprestar_livro alterar o dicionário estoque (tipo estoque[livro] -= 1), essa alteração "sobrevive" depois que a função termina? (dica: pesquise sobre listas/dicionários serem mutáveis e como isso muda o comportamento comparado a um int ou string sendo passado como parâmetro — esse é um detalhe que costuma confundir muita gente vindo de outras linguagens)6 
