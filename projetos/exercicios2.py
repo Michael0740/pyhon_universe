@@ -24,6 +24,7 @@ def emprestimo_livro(livro, estoque):
 def atendimento_cliente(estoque):
     """Orquestradora: interage com o usuário e delega a lógica."""
     print('Bem-vindo à nossa livraria')
+
     procurar_livro = input('Que livro você está procurando?\n ')
 
     resultado = emprestimo_livro(procurar_livro, estoque)

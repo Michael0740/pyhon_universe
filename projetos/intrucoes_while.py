@@ -1,5 +1,6 @@
 #+= incremento , é o mesmo que dizer current_number = current_number +1
 #while enquanto
+#-= ele reduz
 #!= diferente;
 # %2 resto da divisão igual à zero
 #current_number = 1
