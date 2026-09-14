@@ -28,9 +28,9 @@ class Filho(Pai):
     def about_me(self):
         return f'olá o meu nome é {self.nome} , estou com {self.idade} anos de idade '
 
-meus_dados = Filho('Alberto',21)
-print(meus_dados.about_me())
-print(meus_dados.armario.sobre_armario())
+#meus_dados = Filho('Alberto',21)
+#print(meus_dados.about_me())
+#print(meus_dados.armario.sobre_armario())
 
 
 
