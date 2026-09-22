@@ -66,6 +66,8 @@ if __name__ == "__main__":
     print("Senha alterada com sucesso")
     # ler com nova senha
     print(d.ler("abcd"))
+    
+  
             
             
             
