@@ -3,7 +3,7 @@ from aula_poli_abs import Avaliacao
 
 def main():
     avaliacao = Avaliacao('João','Matemática')
-    avaliacao.nota = 9
+    avaliacao.nota = 6
     print(f'Nome: {avaliacao.nome}, Disciplina: {avaliacao.disciplina}, Nota: {avaliacao.nota}')
 
 if __name__ == '__main__':
