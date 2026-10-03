@@ -1,0 +1,1 @@
+#aqui irão constar todas as noções sobre manipulação de arquivos, leitura e escrita de arquivos, etc.
