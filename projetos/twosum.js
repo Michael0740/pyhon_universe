@@ -1,5 +1,4 @@
-let numeros =  [7,10, 2,8clearInterva
-]
+let numeros =  [7,10, 2,8]
 let target = 17
 
 function twosum(numeros, target) {
@@ -16,5 +15,3 @@ function twosum(numeros, target) {
 }
 
 twosum(numeros, target)
-
-
