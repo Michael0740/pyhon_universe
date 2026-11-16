@@ -16,4 +16,3 @@ def carregar_ou_gerar_chave():
         return f.read()
 
 
-  

@@ -1,0 +1,122 @@
+from pathlib import Path
+from getpass import getpass
+from base64 import urlsafe_b64encode
+
+from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+import os
+
+
+ARQUIVO_ORIGINAL = Path("extrato_bancario.txt")
+ARQUIVO_PROTEGIDO = Path("extrato_bancario.enc")
+
+
+def gerar_chave(palavra_passe, salt):
+    """Transforma a palavra-passe numa chave criptográfica."""
+
+    kdf = Scrypt(
+        salt=salt,
+        length=32,
+        n=2**14,
+        r=8,
+        p=1
+    )
+
+    chave = kdf.derive(palavra_passe.encode("utf-8"))
+
+    return urlsafe_b64encode(chave)
+
+
+def proteger_arquivo():
+    """Criptografa o ficheiro original."""
+
+    if not ARQUIVO_ORIGINAL.exists():
+        print("O ficheiro original não foi encontrado.")
+        return
+
+    if ARQUIVO_PROTEGIDO.exists():
+        print("Já existe um ficheiro protegido.")
+        return
+
+    palavra_passe = getpass("Cria uma palavra-passe: ")
+    confirmacao = getpass("Confirma a palavra-passe: ")
+
+    if not palavra_passe:
+        print("A palavra-passe não pode estar vazia.")
+        return
+
+    if palavra_passe != confirmacao:
+        print("As palavras-passe não coincidem.")
+        return
+
+    salt = os.urandom(16)
+    chave = gerar_chave(palavra_passe, salt)
+
+    fernet = Fernet(chave)
+
+    conteudo = ARQUIVO_ORIGINAL.read_bytes()
+    conteudo_criptografado = fernet.encrypt(conteudo)
+
+    # Guardamos o salt juntamente com os dados criptografados.
+    ARQUIVO_PROTEGIDO.write_bytes(
+        salt + conteudo_criptografado
+    )
+
+    print("Ficheiro criptografado com sucesso!")
+    print(f"Ficheiro protegido: {ARQUIVO_PROTEGIDO}")
+
+
+def ler_arquivo_protegido():
+    """Solicita a palavra-passe e recupera o conteúdo."""
+
+    if not ARQUIVO_PROTEGIDO.exists():
+        print("O ficheiro protegido não foi encontrado.")
+        return
+
+    dados = ARQUIVO_PROTEGIDO.read_bytes()
+
+    if len(dados) < 17:
+        print("O ficheiro protegido é inválido.")
+        return
+
+    salt = dados[:16]
+    conteudo_criptografado = dados[16:]
+
+    palavra_passe = getpass("Introduz a palavra-passe: ")
+
+    chave = gerar_chave(palavra_passe, salt)
+    fernet = Fernet(chave)
+
+    try:
+        conteudo_original = fernet.decrypt(
+            conteudo_criptografado
+        )
+
+        print("\nAcesso autorizado!")
+        print("-" * 35)
+        print(conteudo_original.decode("utf-8"))
+        print("-" * 35)
+
+    except InvalidToken:
+        print("Palavra-passe incorreta ou ficheiro adulterado.")
+
+
+def main():
+    print("=== PROTEÇÃO DE FICHEIROS ===")
+    print("1. Criptografar ficheiro")
+    print("2. Ler ficheiro protegido")
+
+    opcao = input("Escolhe uma opção: ")
+
+    if opcao == "1":
+        proteger_arquivo()
+
+    elif opcao == "2":
+        ler_arquivo_protegido()
+
+    else:
+        print("Opção inválida.")
+
+
+if __name__ == "__main__":
+    main()

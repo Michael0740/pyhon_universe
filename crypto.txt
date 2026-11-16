@@ -1,0 +1,40 @@
+from cryptography.fernet import Fernet
+import os
+
+ARQUIVO = "extrato_bancario.txt"
+ARQUIVO_CHAVE = "chave.key"
+
+
+def carregar_ou_gerar_chave():
+    """Gera a chave automaticamente se ainda não existir."""
+    if not os.path.exists(ARQUIVO_CHAVE):
+        chave = Fernet.generate_key()
+        with open(ARQUIVO_CHAVE, "wb") as f:
+            f.write(chave)
+    with open(ARQUIVO_CHAVE, "rb") as f:
+        return f.read()
+
+
+def criptografar(caminho):
+    fernet = Fernet(carregar_ou_gerar_chave())
+    with open(caminho, "rb") as f:
+        dados = f.read()
+    with open(caminho, "wb") as f:
+        f.write(fernet.encrypt(dados))
+
+
+def descriptografar(caminho):
+    fernet = Fernet(carregar_ou_gerar_chave())
+    with open(caminho, "rb") as f:
+        dados = f.read()
+    return fernet.decrypt(dados).decode("utf-8")
+
+
+criptografar(ARQUIVO)
+
+# Quem abrir o arquivo normalmente vê isto (texto ilegível):
+with open(ARQUIVO, "r") as arquivo:
+    print(arquivo.read())
+
+# Só quem tem a chave consegue ler o conteúdo real:
+print(descriptografar(ARQUIVO))

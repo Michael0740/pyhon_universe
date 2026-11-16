@@ -1,0 +1,31 @@
+from cryptography.fernet import Fernet
+
+# --- PASSO 1: Gerar e salvar a chave de segurança (Faça isso apenas uma vez) ---
+# Guarde esta chave em um local seguro. Sem ela, ninguém consegue ler o arquivo!
+# key = Fernet.generate_key()
+# print("Sua chave:", key.decode())
+
+# Para este exemplo, usaremos uma chave de teste fixa:
+# (Em produção, armazene a chave em variáveis de ambiente ou arquivo separado e protegido)
+CHAVE_EXEMPLO = b'W-W0e4V1Z6lqS3U2a5v8d7b9c1f4g2h3j5k7l9m2n4o=' # Exemplo ilustrativo
+cipher = Fernet(CHAVE_EXEMPLO)
+
+# --- PASSO 2: Criptografar e salvar no arquivo ---
+dados_sensiveis = "Extrato Bancario - Saldo Atual: R$ 15.420,00\nUltima Transacao: PIX de R$ 500,00"
+dados_criptografados = cipher.encrypt(dados_sensiveis.encode('utf-8'))
+
+# Se alguém abrir 'extrato_bancario.txt' direto, verá códigos ilegíveis
+with open('extrato_bancario.txt', 'wb') as arquivo:
+    arquivo.write(dados_criptografados)
+
+
+# --- PASSO 3: O seu programa lê e descriptografa para exibir ---
+with open('extrato_bancario.txt', 'rb') as arquivo:
+    conteudo_criptografado = arquivo.read()
+
+# Descriptografando os dados
+conteudo_original = cipher.decrypt(conteudo_criptografado).decode('utf-8')
+
+print("--- Conteúdo Descriptografado com Sucesso ---")
+print(conteudo_original)
+print(f"Tamanho do texto: {len(conteudo_original)} caracteres")
